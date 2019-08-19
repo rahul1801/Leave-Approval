@@ -21,7 +21,7 @@ sub.addEventListener('click',()=>{
 	var rootElem = doc.createElement("pass")
 	
 	var urlelem = doc.createElement("type")
-	urlelem.innerHTML = type.value
+	urlelem.innerHTML = type.selectedIndex
 	rootElem.appendChild(urlelem)
 	var urlelem = doc.createElement("sdate")
 	urlelem.innerHTML = sdate.value
@@ -48,7 +48,8 @@ sub.addEventListener('click',()=>{
 	// 						"etime":etime.value,
     // 						"grounds":grounds.value});
     var str = new XMLSerializer().serializeToString(doc.documentElement);
-    var data = JSON.stringify({"doc":str})
+    var cook = document.cookie
+    var data = JSON.stringify({"doc":str,"cookie":cook})
     xhr.send(data);
 	
 })
