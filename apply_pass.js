@@ -1,35 +1,54 @@
-sub = document.getElementById('sub')
+type = documnet.getElementById('type')
+sdate = documnet.getElementById('s-date')
+edate = document.getElementById('e-date')
+stime = documnet.getElementById('s-time')
+etime = document.getElementById('e-time')
+grounds = documnet.getElementById('grounds')
+
 sub.addEventListener('click',()=>{
-    pass = document.getElementById('type')
-    flag = 0
-    area = document.getElementById('grounds')
-    if(area.value == ""){
-        flag = 1
-        alert('grounds for leave cannot be empty')
+	xhr = new XMLHttpRequest();
+    var url = "url";
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-type", "application/json");
+    xhr.onreadystatechange = function () { 
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            var json = JSON.parse(xhr.responseText);
+            console.log(json.text)
+        } 
     }
-    if(pass.value == 'Day Pass'){
-        s_date = document.getElementById('s-date')
-        s_date_value = s_date.value
-        e_date = document.getElementById('e-date')
-        e_date_value = e_date.value
 
-        e_time = document.getElementById('e-time')
-        e_time_value = e_time.value
+    var doc = document.implementation.createDocument("","",null)
+	var rootElem = doc.createElement("pass")
+	
+	var urlelem = doc.createElement("type")
+	urlelem.innerHTML = type.value
+	rootElem.appendChild(urlelem)
+	var urlelem = doc.createElement("sdate")
+	urlelem.innerHTML = sdate.value
+	rootElem.appendChild(urlelem)
+	var urlelem = doc.createElement("edate")
+	urlelem.innerHTML = edate.value
+	rootElem.appendChild(urlelem)
+	var urlelem = doc.createElement("stime")
+	urlelem.innerHTML = stime.value
+	rootElem.appendChild(urlelem)
+	var urlelem = doc.createElement("etime")
+	urlelem.innerHTML = etime.value
+	rootElem.appendChild(urlelem)
+	var urlelem = doc.createElement("grounds")
+	urlelem.innerHTML = grounds.value
+	rootElem.appendChild(urlelem)
+	
+    doc.appendChild(rootElem)
 
-        if(s_date_value != e_date_value){
-            alert('For Day Pass please enter the same start date and end date')   
-            flag = 1 
-        }
-        else{
-            if(e_time_value > "19:00"){
-                alert("You have to be in college before 7 pm")
-                flag = 1
-            }
-        }
-
-    }
-    if (flag == 0){
-        window.location.href = 'list_student_passes.html'
-    }
-    
+	// var data = JSON.stringify({"type": type.value,
+	// 						"sdate": sdate.value,
+	// 						"edate":edate.value,
+	// 						"stime":stime.value,
+	// 						"etime":etime.value,
+    // 						"grounds":grounds.value});
+    var str = new XMLSerializer().serializeToString(doc.documentElement);
+    var data = JSON.stringify({"doc":str})
+    xhr.send(data);
+	
 })
